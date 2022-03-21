@@ -44,23 +44,36 @@ void sortFScore(DynamicArray<NodeGraph::Node*>& nodes)
 
 DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 {
-	DynamicArray<NodeGraph::Node*> currArray;
+	DynamicArray<NodeGraph::Node*> currArray = DynamicArray <NodeGraph::Node*>();
+	DynamicArray<NodeGraph::Node*> tempArray = DynamicArray <NodeGraph::Node*>();
 
-	for (int v; v = currArray.getLength(); v++)
+	float GScore = 0;
+
+	currArray.addItem(start);
+	while (currArray.getLength() > 0)
 	{
-		start->gScore;
-		start->previous->gScore;
+		for (int v = 0; v < currArray[0]->edges.getLength(); v++)
+		{
+			NodeGraph::Node* targetNode = currArray[0]->edges[v].target;
 
-	}
-	while (true)
-	{
+			if (!currArray.contains(targetNode) && !tempArray.contains(targetNode))
+			{
+				targetNode->gScore = currArray[0]->gScore + currArray[0]->edges[v].cost;
+				targetNode->previous = currArray[0];
+				currArray.addItem(targetNode);
+				GScore = targetNode->gScore;
+			}
+			if (currArray.contains(targetNode) && targetNode->gScore < GScore)
+			{
+				GScore = targetNode->gScore;
+			}
 
+		}
+		tempArray.addItem(currArray[0]);
+		currArray.remove(currArray[0]);
 	}
-	for ()
-	{
-
-	}
-	return DynamicArray<NodeGraph::Node*>();
+	
+	return reconstructPath(start, goal);
 }
 
 void NodeGraph::drawGraph(Node* start)
