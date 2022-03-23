@@ -19,8 +19,15 @@ public:
 	MoveComponent* getMoveComponent() { return m_moveComponent; }
 	void applyForce(MathLibrary::Vector2 force);
 	MathLibrary::Vector2 getForce() { return m_force; }
+	/// <summary>
+	/// chcks to see if an agent has a weapon
+	/// </summary>
+	bool getHasWeapon() { return m_hasWeapon; }
 
 private:
+	void pickUpWeapon(Actor* weapon);
+	bool m_hasWeapon;
+	Actor* m_weapon;
 	DynamicArray<SteeringComponent*> m_steeringComponents;
 	float m_maxForce;
 	MoveComponent* m_moveComponent;

@@ -49,3 +49,9 @@ void Agent::applyForce(MathLibrary::Vector2 force)
 {
 	m_moveComponent->setVelocity((m_moveComponent->getVelocity() + force));
 }
+
+void Agent::pickUpWeapon(Actor* weapon)
+{
+	m_weapon = weapon;
+	m_hasWeapon = true;
+}

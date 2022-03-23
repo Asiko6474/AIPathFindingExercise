@@ -5,7 +5,9 @@ enum State
 {
 	IDLE,
 	WANDER,
-	SEEK
+	SEEK,
+	SEEKPLAYER,
+	SEEKWEAPON
 };
 
 class SeekComponent;

@@ -20,7 +20,7 @@ void StateMachineComponent::start()
 void StateMachineComponent::update(float deltaTime)
 {
 	Component::update(deltaTime);
-
+	MathLibrary::Vector2 weaponPos;
 	MathLibrary::Vector2 targetPos = m_seekComponent->getTarget()->getTransform()->getWorldPosition();
 	MathLibrary::Vector2 ownerPos = getOwner()->getTransform()->getWorldPosition();
 	float distanceFromTarget = (targetPos - ownerPos).getMagnitude();
@@ -29,28 +29,24 @@ void StateMachineComponent::update(float deltaTime)
 
 	switch (m_currentState)
 	{
-	case IDLE:
-		m_seekComponent->setSteeringForce(0);
-		m_wanderComponent->setSteeringForce(0);
-
-		if (targetInRange)
-			setCurrentState(SEEK);
-
-		break;
 	case WANDER:
 		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(m_wanderForce);
 
+	case SEEKWEAPON:
+		m_seekComponent->setSteeringForce(m_seekForce);
+		m_wanderComponent->setSteeringForce(0);
+
 		if (targetInRange)
-			setCurrentState(SEEK);
+			setCurrentState(SEEKPLAYER);
 
 		break;
-	case SEEK:
+	case SEEKPLAYER:
 		m_seekComponent->setSteeringForce(m_seekForce);
 		m_wanderComponent->setSteeringForce(0);
 
 		if (!targetInRange)
-			setCurrentState(WANDER);
+			setCurrentState(SEEKWEAPON);
 
 		break;
 	}

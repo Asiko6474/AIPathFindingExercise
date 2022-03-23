@@ -44,36 +44,55 @@ void sortFScore(DynamicArray<NodeGraph::Node*>& nodes)
 
 DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 {
-	DynamicArray<NodeGraph::Node*> currArray = DynamicArray <NodeGraph::Node*>();
-	DynamicArray<NodeGraph::Node*> tempArray = DynamicArray <NodeGraph::Node*>();
+	resetGraphScore(start);
+	//Insert algorithm here
+	DynamicArray<NodeGraph::Node*> currArray = DynamicArray<NodeGraph::Node*>();
+	DynamicArray<NodeGraph::Node*> tempArray = DynamicArray<NodeGraph::Node*>();
 
-	float GScore = 0;
-
+	Node* currentNode = start;
+	start->color = 0x00FF00FF;
 	currArray.addItem(start);
+
 	while (currArray.getLength() > 0)
 	{
-		for (int v = 0; v < currArray[0]->edges.getLength(); v++)
+		sortFScore(currArray);
+		currentNode = currArray[0];
+		currArray.remove(currentNode);
+
+		if (!tempArray.contains(currentNode))
 		{
-			NodeGraph::Node* targetNode = currArray[0]->edges[v].target;
-
-			if (!currArray.contains(targetNode) && !tempArray.contains(targetNode))
+			for (int i = 0; i < currentNode->edges.getLength(); i++)
 			{
-				targetNode->gScore = currArray[0]->gScore + currArray[0]->edges[v].cost;
-				targetNode->previous = currArray[0];
-				currArray.addItem(targetNode);
-				GScore = targetNode->gScore;
-			}
-			if (currArray.contains(targetNode) && targetNode->gScore < GScore)
-			{
-				GScore = targetNode->gScore;
-			}
+				NodeGraph::Node* targetNode = currentNode->edges[i].target;
+				targetNode->color = 0xFF0000FF;
 
+				if (!targetNode->walkable)
+					continue;
+
+				if (targetNode->gScore == 0 || targetNode->gScore > currentNode->gScore + currentNode->edges[i].cost)
+				{
+					targetNode->gScore = currentNode->gScore + currentNode->edges[i].cost;
+					targetNode->hScore = getManhattanDistance(targetNode, goal);
+					targetNode->fScore = targetNode->gScore + targetNode->hScore;
+					targetNode->previous = currentNode;
+				}
+				if (!currArray.contains(targetNode))
+					currArray.addItem(targetNode);
+			}
+			tempArray.addItem(currentNode);
 		}
-		tempArray.addItem(currArray[0]);
-		currArray.remove(currArray[0]);
+		if (currentNode == goal)
+			return reconstructPath(start, goal);
 	}
-	
+
+
 	return reconstructPath(start, goal);
+}
+
+float NodeGraph::getManhattanDistance(Node* start, Node* end)
+{
+	return abs(start->position.x - end->position.x)
+		+ abs(start->position.y - end->position.y);
 }
 
 void NodeGraph::drawGraph(Node* start)
