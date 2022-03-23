@@ -3,6 +3,7 @@
 
 class Maze;
 class PathfindComponent;
+class WanderComponent;
 
 class Ghost : public Agent
 {
@@ -30,6 +31,7 @@ public:
 
 private:
 	PathfindComponent* m_pathfindComponent;
+	WanderComponent* m_wanderComponent;
 	Maze* m_maze;
 
 	Actor* m_target = nullptr;

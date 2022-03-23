@@ -117,6 +117,7 @@ void Actor::onCollision(Actor* other)
         if (!m_components[i]->getEnabled()) continue;
         m_components[i]->onCollision(other);
     }
+ 
 }
 
 void Actor::update(float deltaTime)

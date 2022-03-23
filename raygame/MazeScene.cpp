@@ -2,13 +2,15 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Ghost.h"
+#include "SeekComponent.h"
 #include "Transform2D.h"
+#include "StateMachineComponent.h"
 
 Maze::TileKey _ = Maze::TileKey::OPEN;
 Maze::TileKey w = Maze::TileKey::WALL;
-Maze::TileKey s = Maze::TileKey::MUD;
 Maze::TileKey p = Maze::TileKey::PLAYER;
 Maze::TileKey g = Maze::TileKey::GHOST;
+Maze::TileKey s = Maze::TileKey::WEAPON;
 
 Maze::Maze()
 {
@@ -99,25 +101,42 @@ Maze::Tile Maze::createTile(int x, int y, TileKey key)
 	case TileKey::OPEN:
 		tile.cost = 1.0f;
 		break;
+
 	case TileKey::WALL:
 		tile.cost = 100.0f;
 		tile.actor = new Wall(position.x, position.y);
 		tile.node->walkable = false;
 		addActor(tile.actor);
 		break;
+
 	case TileKey::PLAYER:
 		tile.cost = 1.0f;
 		m_player->getTransform()->setWorldPostion(position);
 		tile.actor = m_player;
 		addActor(tile.actor);
 		break;
+
 	case TileKey::GHOST:
 		tile.cost = 1.0f;
 		Ghost* ghost = new Ghost(position.x, position.y, 100, 50, 0xFF6666FF, this);
 		ghost->setTarget(m_player);
+
+		SeekComponent* seekComponent = new SeekComponent();
+		seekComponent->setSteeringForce(200);
+		seekComponent->setTarget(m_player);
+		ghost->addComponent(seekComponent);
+		ghost->addComponent<StateMachineComponent>();
 		tile.actor = ghost;
 		addActor(tile.actor);
 		break;
+
+	/*case TileKey::WEAPON:
+		tile.cost = 1.0f;
+		Agent* weapon = new Agent(position.x, position.y,"Gun", 100, 50);
+		tile.actor = weapon;
+		addActor(tile.actor);
+		break;*/
+
 	}
 	return tile;
 }

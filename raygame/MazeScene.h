@@ -20,7 +20,7 @@ public:
 	enum class TileKey {
 		OPEN,
 		WALL,
-		MUD,
+		WEAPON,
 		PLAYER,
 		GHOST
 	};

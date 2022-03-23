@@ -4,11 +4,11 @@
 #include "SpriteComponent.h"
 #include "Transform2D.h"
 #include "MazeScene.h"
-#include "Wall.h"
 #include "AABBCollider.h"
 #include "Agent.h"
 #include "Collider.h"
 #include "InputComponent.h";
+#include "Wall.h"
 
 void Player::start()
 {
@@ -46,4 +46,5 @@ void Player::onCollision(Actor* other)
 		//getTransform()->setWorldPostion(getTransform()->getWorldPosition() - getMoveComponent()->getVelocity().getNormalized() * -.05f);
 		applyForce(getCollider()->getCollisionNormal() * -1 * getMoveComponent()->getVelocity().getMagnitude());
 	}
+	/*Weapon::onCollision(other);*/
 }

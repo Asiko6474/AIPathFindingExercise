@@ -26,7 +26,7 @@ public:
 
 private:
 	void pickUpWeapon(Actor* weapon);
-	bool m_hasWeapon;
+	bool m_hasWeapon = false;
 	Actor* m_weapon;
 	DynamicArray<SteeringComponent*> m_steeringComponents;
 	float m_maxForce;

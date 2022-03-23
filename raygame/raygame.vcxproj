@@ -170,6 +170,7 @@
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WanderComponent.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WanderComponent.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
