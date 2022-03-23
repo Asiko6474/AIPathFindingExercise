@@ -42,6 +42,8 @@ void StateMachineComponent::update(float deltaTime)
 
 		if (targetInPathRange)
 			setCurrentState(SEEKPLAYER);
+
+		break;
 		
 
 	//case SEEKWEAPON:
@@ -53,7 +55,7 @@ void StateMachineComponent::update(float deltaTime)
 
 	//	break;
 	case SEEKPLAYER:
-		m_seekComponent->setSteeringForce(m_seekForce);
+		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(0);
 		m_pathFindComponent->setEnabled(true);
 

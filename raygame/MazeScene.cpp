@@ -5,6 +5,7 @@
 #include "SeekComponent.h"
 #include "Transform2D.h"
 #include "StateMachineComponent.h"
+#include "WanderComponent.h"
 
 Maze::TileKey _ = Maze::TileKey::OPEN;
 Maze::TileKey w = Maze::TileKey::WALL;
@@ -27,7 +28,7 @@ Maze::Maze()
 		{ w, _, _, _, w, _, _, _, _, _, _, _, _, _, _, _, _, w, _, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, _, w, _, _, _, w, w, w, w, w, w, _, _, _, w, _, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, _, w, _, w, w, w, _, _, _, _, _, w, _, _, w, _, _, _, _, _, _, _, _, _, w },
-		{ w, _, _, _, w, _, _, g, w, _, _, _, _, w, w, _, _, _, w, _, _, _, _, _, _, _, _, w },
+		{ w, _, _, _, w, _, _, _, w, _, _, _, _, w, w, _, _, _, w, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, _, w, w, w, _, w, _, _, _, w, _, _, w, _, _, _, w, _, _, _, _, _, _, _, w },
 		{ w, _, _, _, _, _, w, w, w, _, _, w, _, _, _, _, _, _, _, _, w, _, _, _, _, _, _, w },
 		{ w, _, _, _, _, _, _, _, _, _, _, w, _, _, _, _, _, _, _, _, w, _, _, _, _, _, _, w },
@@ -38,7 +39,7 @@ Maze::Maze()
 		{ w, _, _, w, _, _, _, _, _, w, _, w, w, w, w, _, _, w, w, w, w, _, _, _, _, _, _, w },
 		{ w, _, _, w, _, w, w, w, w, w, _, _, _, _, _, p, _, _, w, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, w, _, w, _, _, _, _, _, _, _, _, _, _, _, _, w, _, _, _, _, _, _, _, _, w },
-		{ w, _, _, w, _, _, _, _, _, _, _, w, w, w, w, w, w, w, w, _, _, _, _, _, _, _, _, w },
+		{ w, _, _, w, _, _, _, _, _, g, _, w, w, w, w, w, w, w, w, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, w, _, w, w, w, _, _, _, w, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, w, _, w, _, w, _, _, _, w, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, w, w, w, w, w, w, w, w, w, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, w },
@@ -71,7 +72,7 @@ Maze::~Maze()
 
 void Maze::draw()
 {
-	NodeGraph::drawGraph(m_grid[0][0].node);
+	/*NodeGraph::drawGraph(m_grid[0][0].node);*/
 	Scene::draw();
 }
 
@@ -125,6 +126,8 @@ Maze::Tile Maze::createTile(int x, int y, TileKey key)
 		seekComponent->setSteeringForce(200);
 		seekComponent->setTarget(m_player);
 		ghost->addComponent(seekComponent);
+		WanderComponent* wanderComponent = new WanderComponent(100, 200, 200);
+		ghost->addComponent(wanderComponent);
 		ghost->addComponent<StateMachineComponent>();
 		tile.actor = ghost;
 		addActor(tile.actor);

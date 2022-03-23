@@ -16,6 +16,7 @@ void PathfindComponent::update(float deltaTime)
 	if (!m_target)
 		return;
 
+
 	//Find the positions and tiles of the owner and target
 	MathLibrary::Vector2 ownerPosition = getOwner()->getTransform()->getWorldPosition();
 	MathLibrary::Vector2 destinationPosition = findDestination();

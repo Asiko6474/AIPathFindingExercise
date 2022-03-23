@@ -84,8 +84,6 @@ DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 		if (currentNode == goal)
 			return reconstructPath(start, goal);
 	}
-
-
 	return reconstructPath(start, goal);
 }
 
