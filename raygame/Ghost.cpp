@@ -17,7 +17,7 @@ Ghost::Ghost(float x, float y, float maxSpeed, float maxForce, int color, Maze* 
 	getTransform()->setScale({ Maze::TILE_SIZE,Maze::TILE_SIZE });
 
 	m_pathfindComponent = new PathfindComponent(maze);
-	m_wanderComponent = new WanderComponent(10, 50, 20);
+	m_wanderComponent = new WanderComponent(100, 100, 20);
 	m_pathfindComponent->setColor(color);
 	addComponent(m_pathfindComponent);
 	addComponent(m_wanderComponent);

@@ -34,6 +34,6 @@ private:
 	float m_seekForce;
 	float m_wanderForce;
 	float m_seekRange = 100;
-	float m_pathFindRange = 100;
+	float m_pathFindRange = 300;
 };
 
