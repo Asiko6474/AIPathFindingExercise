@@ -126,9 +126,11 @@ Maze::Tile Maze::createTile(int x, int y, TileKey key)
 		seekComponent->setSteeringForce(200);
 		seekComponent->setTarget(m_player);
 		ghost->addComponent(seekComponent);
-		WanderComponent* wanderComponent = new WanderComponent(100, 200, 200);
-		ghost->addComponent(wanderComponent);
-		ghost->addComponent<StateMachineComponent>();
+
+		WanderComponent* wanderComponent = new WanderComponent(100, 200, 200); //Add in the Wander component
+		ghost->addComponent(wanderComponent); //set the ghost to use the wander component 
+		ghost->addComponent<StateMachineComponent>(); //Make sure the ghost uses the state machine component
+
 		tile.actor = ghost;
 		addActor(tile.actor);
 		break;

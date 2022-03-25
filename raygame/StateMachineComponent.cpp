@@ -36,15 +36,17 @@ void StateMachineComponent::update(float deltaTime)
 	switch (m_currentState)
 	{
 	case WANDER:
+		//make sure the steering force is off
 		m_seekComponent->setSteeringForce(0);
+		//Sets the enemy to start wandering 
 		m_wanderComponent->setSteeringForce(m_wanderForce);
+		//Remove the ability to path find
 		m_pathFindComponent->setEnabled(false);
 
 		if (targetInPathRange)
 			setCurrentState(SEEKPLAYER);
 
 		break;
-		
 
 	//case SEEKWEAPON:
 	//	m_seekComponent->setSteeringForce(m_seekForce);
@@ -54,9 +56,14 @@ void StateMachineComponent::update(float deltaTime)
 	//		setCurrentState(SEEKPLAYER);
 
 	//	break;
+
+
 	case SEEKPLAYER:
+		//make sure the steering force is off
 		m_seekComponent->setSteeringForce(0);
+		//removed the ability to wander
 		m_wanderComponent->setSteeringForce(0);
+		//sets the enemy to start pathfinding 
 		m_pathFindComponent->setEnabled(true);
 
 		if (!targetInPathRange)

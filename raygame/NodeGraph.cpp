@@ -44,44 +44,59 @@ void sortFScore(DynamicArray<NodeGraph::Node*>& nodes)
 
 DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 {
+	//Reset the graph to keep the screen clean
 	resetGraphScore(start);
-	//Insert algorithm here
-	DynamicArray<NodeGraph::Node*> currArray = DynamicArray<NodeGraph::Node*>();
-	DynamicArray<NodeGraph::Node*> tempArray = DynamicArray<NodeGraph::Node*>();
 
+	DynamicArray<NodeGraph::Node*> openList = DynamicArray<NodeGraph::Node*>();
+	DynamicArray<NodeGraph::Node*> closedList = DynamicArray<NodeGraph::Node*>();
+
+	//Sets the current node to be the starting node and adds it to the open List
 	Node* currentNode = start;
 	start->color = 0x00FF00FF;
-	currArray.addItem(start);
+	openList.addItem(start);
 
-	while (currArray.getLength() > 0)
+	//While the open list has items in it
+	while (openList.getLength() > 0)
 	{
-		sortFScore(currArray);
-		currentNode = currArray[0];
-		currArray.remove(currentNode);
+		//Sort the list, setting the current node to be the first and removing it.
+		sortFScore(openList);
+		currentNode = openList[0];
+		openList.remove(currentNode);
 
-		if (!tempArray.contains(currentNode))
+		//If the closed list contains the current node
+		if (!closedList.contains(currentNode))
 		{
+			//Loop through all connected edges
 			for (int i = 0; i < currentNode->edges.getLength(); i++)
 			{
+				//Set the target node to be the edge's target
 				NodeGraph::Node* targetNode = currentNode->edges[i].target;
 				targetNode->color = 0xFF0000FF;
 
+				//If node is not walkable
 				if (!targetNode->walkable)
 					continue;
 
+				//If the gscore is greater than 0 and more than the cost of another path
 				if (targetNode->gScore == 0 || targetNode->gScore > currentNode->gScore + currentNode->edges[i].cost)
 				{
+					//reset everything so it can use the better path
 					targetNode->gScore = currentNode->gScore + currentNode->edges[i].cost;
 					targetNode->hScore = getManhattanDistance(targetNode, goal);
 					targetNode->fScore = targetNode->gScore + targetNode->hScore;
 					targetNode->previous = currentNode;
 				}
-				if (!currArray.contains(targetNode))
-					currArray.addItem(targetNode);
+				//If the open list does not contain the target
+				if (!openList.contains(targetNode))
+					//add it
+					openList.addItem(targetNode);
 			}
-			tempArray.addItem(currentNode);
+			//add the current node to the closed list
+			closedList.addItem(currentNode);
 		}
+		//If the current node is the goal
 		if (currentNode == goal)
+			//return
 			return reconstructPath(start, goal);
 	}
 	return reconstructPath(start, goal);
